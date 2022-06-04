@@ -7,7 +7,7 @@ const Message = new Schema(
     recipientMessage: { type: String, required: true },
     authorMessage: { type: String, required: true },
   },
-  { timeseries: true }
+  { timestamps: true }
 );
 
 module.exports = model("Message", Message);
