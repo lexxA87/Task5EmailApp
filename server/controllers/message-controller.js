@@ -6,10 +6,10 @@ const handleError = (res, error) => {
 };
 
 const getMessages = (req, res) => {
-  const { name } = req.body;
+  const { name } = req.query;
 
   Message.find({ recipientMessage: name })
-    .then((message) => res.status(200).json(message))
+    .then((messages) => res.status(200).json(messages))
     .catch((error) => handleError(res, error));
 };
 
