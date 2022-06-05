@@ -1,12 +1,26 @@
 import React, { useState } from "react";
-// import axios from "axios";
+import axios from "axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Input from "./inputs/Input";
 import FormCard from "./FormCard";
+import { useNavigate } from "react-router-dom";
 
-function LoginForm() {
+function LoginForm(props) {
   const [isSubmit, setIsSubmit] = useState(false);
+  const { setUserName } = props;
+
+  const redirect = useNavigate();
+
+  const loginUser = (name) => {
+    axios
+      .post("http://localhost:5000/api/user", {
+        name: name,
+      })
+      .then((user) => setUserName(user.data.user.name))
+      .then(() => redirect("/message"))
+      .catch((error) => console.log(error));
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -20,7 +34,7 @@ function LoginForm() {
     }),
     onSubmit: (values) => {
       setIsSubmit(true);
-      alert(JSON.stringify(values, null, 2));
+      loginUser(values.name);
     },
   });
 
