@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Message from "./Message";
 
 function Messages(props) {
   const [messages, setMessages] = useState([]);
@@ -17,13 +18,21 @@ function Messages(props) {
   };
 
   useEffect(() => {
-    console.log("useEffect : ", userName);
     getMessages(userName);
   }, [userName]);
 
-  console.log(messages);
-
-  return <div>Messages</div>;
+  return messages.map((message) => {
+    return (
+      <Message
+        key={message._id}
+        id={message._id}
+        title={message.title}
+        authorMessage={message.authorMessage}
+        bodyMessage={message.bodyMessage}
+        dateMessage={message.createdAt}
+      />
+    );
+  });
 }
 
 export default Messages;

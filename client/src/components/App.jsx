@@ -3,7 +3,6 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import LoginForm from "./forms/LoginForm";
 import SendMessageForm from "./forms/SendMessageForm";
 import Messages from "./messages/Messages";
-// import Message from "./messages/Message";
 
 function App() {
   const [userName, setUserName] = useState("");

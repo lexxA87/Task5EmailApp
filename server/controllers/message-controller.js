@@ -9,6 +9,7 @@ const getMessages = (req, res) => {
   const { name } = req.query;
 
   Message.find({ recipientMessage: name })
+    .sort({ createdAt: -1 })
     .then((messages) => res.status(200).json(messages))
     .catch((error) => handleError(res, error));
 };
