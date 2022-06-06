@@ -25,4 +25,13 @@ const setUser = async (req, res) => {
   }
 };
 
-module.exports = { setUser };
+const getUsers = (req, res) => {
+  User.find()
+    .then((users) => res.status(200).json(users))
+    .catch((error) => {
+      console.log(error);
+      res.send({ message: "Server error" });
+    });
+};
+
+module.exports = { setUser, getUsers };

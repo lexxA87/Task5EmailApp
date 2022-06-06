@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useFormik } from "formik";
@@ -8,8 +8,13 @@ import FormCard from "./FormCard";
 
 function SendMessageForm(props) {
   const [isSubmit, setIsSubmit] = useState(false);
+  const [users, setUsers] = useState([]);
 
   const redirect = useNavigate();
+
+  useEffect(() => {
+    getUsers();
+  }, []);
 
   const sendMessage = (message) => {
     axios
@@ -20,6 +25,13 @@ function SendMessageForm(props) {
         authorMessage: message.authorMessage,
       })
       .then((message) => redirect("/messages"))
+      .catch((error) => console.log(error));
+  };
+
+  const getUsers = () => {
+    axios
+      .get("http://localhost:5000/api/users")
+      .then((users) => setUsers(users.data))
       .catch((error) => console.log(error));
   };
 
@@ -59,17 +71,23 @@ function SendMessageForm(props) {
     invalidSubmitTitle ||
     invalidSubmitRecipientMessage;
 
+  const usersList = users.map((user) => {
+    return <option value={user.name} key={user._id} />;
+  });
+
   return (
     <FormCard titleForm="Send your message">
       <form onSubmit={formik.handleSubmit}>
         <Input
           onChange={formik.handleChange}
           value={formik.values.recipientMessage}
+          list="datalistOptions"
           type="text"
           placeholder="recipientMessage"
           htmlId="recipientMessage"
           invalidSubmit={invalidSubmitRecipientMessage}
         >
+          <datalist id="datalistOptions">{usersList}</datalist>
           {invalidSubmitRecipientMessage ? (
             <div className="invalid-tooltip" style={{ display: "block" }}>
               {formik.errors.recipientMessage}

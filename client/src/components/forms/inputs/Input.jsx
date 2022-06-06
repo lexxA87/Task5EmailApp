@@ -10,6 +10,7 @@ function Input(props) {
         type={props.type}
         placeholder={props.placeholder}
         className={`form-control ${props.invalidSubmit ? "is-invalid" : ""}`}
+        list={props.list ? props.list : ""}
       />
       <label htmlFor={props.htmlId}>{props.placeholder}</label>
       {props.children}
