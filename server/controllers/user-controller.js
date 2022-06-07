@@ -6,19 +6,9 @@ const setUser = async (req, res) => {
     const user = await User.findOne({ name });
     if (!user) {
       const newUser = new User({ name });
-      await newUser.save();
-      return res.json({
-        message: "User was created",
-        user: {
-          name: newUser.name,
-        },
-      });
+      await newUser.save().then((user) => res.status(200).json(user));
     }
-    return res.json({
-      user: {
-        name: user.name,
-      },
-    });
+    return res.status(200).json(user);
   } catch (error) {
     console.log(error);
     res.send({ message: "Server error" });

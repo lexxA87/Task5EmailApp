@@ -5,21 +5,24 @@ import SendMessageForm from "./forms/SendMessageForm";
 import Messages from "./messages/Messages";
 
 function App() {
-  const [userName, setUserName] = useState("");
+  const [user, setUser] = useState({
+    _id: "",
+    name: "",
+  });
 
   return (
     <BrowserRouter>
       <div className="container">
-        {userName ? (
+        {user.name ? (
           <Routes>
-            <Route path="/" element={<Navigate to="/messages" />} />
+            <Route path="/" element={<Navigate to={`/${user._id}`} />} />
             <Route
-              path="/messages"
-              element={<Messages userName={userName} />}
+              path={`/${user._id}`}
+              element={<Messages currentUser={user} />}
             />
             <Route
               path="/message"
-              element={<SendMessageForm userName={userName} />}
+              element={<SendMessageForm currentUser={user} />}
             />
             <Route path="/login" element={<Navigate to="/" />} />
             <Route path="*" element={<Navigate to="/" />} />
@@ -27,10 +30,7 @@ function App() {
         ) : (
           <Routes>
             <Route path="/" element={<Navigate to="/login" />} />
-            <Route
-              path="/login"
-              element={<LoginForm setUserName={setUserName} />}
-            />
+            <Route path="/login" element={<LoginForm setUser={setUser} />} />
             <Route path="/messages" element={<Navigate to="/login" />} />
             <Route path="/message" element={<Navigate to="/login" />} />
             <Route path="*" element={<Navigate to="/" />} />

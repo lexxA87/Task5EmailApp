@@ -8,16 +8,14 @@ import { useNavigate } from "react-router-dom";
 
 function LoginForm(props) {
   const [isSubmit, setIsSubmit] = useState(false);
-  const { setUserName } = props;
+  const { setUser } = props;
 
   const redirect = useNavigate();
 
   const loginUser = (name) => {
     axios
-      .post("http://localhost:5000/api/user", {
-        name: name,
-      })
-      .then((user) => setUserName(user.data.user.name))
+      .post("http://localhost:5000/api/user", name)
+      .then((user) => setUser(user.data))
       .then(() => redirect("/message"))
       .catch((error) => console.log(error));
   };
@@ -34,7 +32,7 @@ function LoginForm(props) {
     }),
     onSubmit: (values) => {
       setIsSubmit(true);
-      loginUser(values.name);
+      loginUser(values);
     },
   });
 

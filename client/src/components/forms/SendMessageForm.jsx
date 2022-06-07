@@ -24,7 +24,7 @@ function SendMessageForm(props) {
         bodyMessage: message.bodyMessage,
         authorMessage: message.authorMessage,
       })
-      .then((message) => redirect("/messages"))
+      .then((message) => redirect(`/${props.currentUser._id}`))
       .catch((error) => console.log(error));
   };
 
@@ -40,7 +40,7 @@ function SendMessageForm(props) {
       recipientMessage: "",
       title: "",
       bodyMessage: "",
-      authorMessage: props.userName,
+      authorMessage: props.currentUser.name,
     },
     validationSchema: Yup.object({
       recipientMessage: Yup.string()
